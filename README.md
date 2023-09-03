@@ -1,11 +1,13 @@
 # reddit-post-to-markdown
 
-Guardar posts de Reddit en formato markdown
+Saving Reddit Posts in Markdown Format
 
-Mini boludes que hice aburrido.
+Small things I did out of boredom.
 
-Solamente en el campo de texto pege el enlace de el post de Reddit, dele en "save post".
+Simply paste the Reddit post link in the text field and click 'Save Post.'
 
-Si lo quiere guardar dele en "download md file"
+To save it, click 'Download MD File.'
 
-[pagina principal](https://lauta-dev.github.io/reddit-post-to-markdown/)
+pd: If you want to use this in [Obsidian](https://obsidian.md/), I recommend installing the [Thumbnails](https://obsidian.md/plugins?id=obsidian-thumbnails) plugin.
+
+[Main page](https://lauta-dev.github.io/reddit-post-to-markdown/)
