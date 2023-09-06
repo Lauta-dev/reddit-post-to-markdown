@@ -2,7 +2,6 @@
 	"name": "reddit-post-to-markdown",
 	"author": "Lauta-dev",
 	"description": "Conver Reddit post to Markdown file and save this",
-
 	"version": "1.0.0",
 	"main": "./dist/get-reddit-post.js",
 	"repository": {
@@ -12,6 +11,12 @@
 	"scripts": {
 		"build": "tsc"
 	},
-	"keywords": ["reddit", "post"],
-	"license": "ISC"
+	"keywords": [
+		"reddit",
+		"post"
+	],
+	"license": "ISC",
+	"dependencies": {
+		"typescript": "^5.2.2"
+	}
 }
