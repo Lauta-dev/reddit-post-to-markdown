@@ -28,6 +28,7 @@ const method = {
         const newText = (text === null || text === void 0 ? void 0 : text.startsWith('#')) ? text === null || text === void 0 ? void 0 : text.slice(2) : text;
         return newText;
     },
+    extractSubRedditLink: /^(https:\/\/www\.reddit\.com\/r\/[^/]+).*$/
 };
 const customErrors = {
     ifNotExistSubReddit: 'No se encontro el subReddit',
@@ -59,7 +60,7 @@ const templatePhoto = ({ thumbnail, title }) => {
     }
     return '';
 };
-const getRedditPost = ({ url }) => __awaiter(void 0, void 0, void 0, function* () {
+const getRedditPost = ({ url, link }) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const res = yield fetch(url);
         if (!res.ok) {
@@ -69,11 +70,15 @@ const getRedditPost = ({ url }) => __awaiter(void 0, void 0, void 0, function* (
         const json = yield res.json();
         const data = json[0].data.children[0].data;
         const { title, selftext, author, media, subreddit_name_prefixed, url: thumbnail } = data;
+        const subredditLink = link.match(/^(https:\/\/www\.reddit\.com\/r\/[^/]+).*$/)[1];
+        console.log(subredditLink);
         const arriba = `
 ---
 tag: reddit
 author: ${author}
 subreddit: ${subreddit_name_prefixed}
+post_link: ${link}
+subreddit_link: ${subredditLink}
 ---
 
 # ${title}
@@ -83,7 +88,7 @@ ${selftext}
 ${templateMedia(media, thumbnail)}
 ${templatePhoto({ thumbnail, title })}
 
-[${subreddit_name_prefixed}](${input.value})`;
+[${subreddit_name_prefixed}](${link})`;
         b ? b.innerText = title : null;
         output.appendChild(h1);
         output.innerText = arriba;
@@ -100,8 +105,8 @@ btn.addEventListener('click', () => {
     }
     const reg = method.replace;
     const url = values.replace(reg, '.json');
+    getRedditPost({ url, link: values });
     input.value = '';
-    getRedditPost({ url });
 });
 const downloadReddit = () => {
     var _a;

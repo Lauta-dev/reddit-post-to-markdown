@@ -21,6 +21,7 @@ const method = {
     const newText = text?.startsWith('#') ? text?.slice(2) : text
     return newText
   },
+  extractSubRedditLink: /^(https:\/\/www\.reddit\.com\/r\/[^/]+).*$/
 }
 
 const customErrors = {
@@ -85,7 +86,7 @@ const templatePhoto = ({ thumbnail, title }: { thumbnail: string, title: string 
   return ''
 }
 
-const getRedditPost = async ({ url }: { url: string }) => {
+const getRedditPost = async ({ url, link }: { url: string, link: string }) => {
   try {
     const res = await fetch(url)
   
@@ -99,11 +100,17 @@ const getRedditPost = async ({ url }: { url: string }) => {
   
     const { title, selftext, author,  media, subreddit_name_prefixed, url: thumbnail } = data
 
+    const subredditLink = link.match(/^(https:\/\/www\.reddit\.com\/r\/[^/]+).*$/)![1]
+
+    console.log(subredditLink)
+
     const arriba = `
 ---
 tag: reddit
 author: ${author}
 subreddit: ${subreddit_name_prefixed}
+post_link: ${link}
+subreddit_link: ${subredditLink}
 ---
 
 # ${title}
@@ -113,7 +120,7 @@ ${selftext}
 ${templateMedia(media, thumbnail)}
 ${templatePhoto({ thumbnail, title })}
 
-[${subreddit_name_prefixed}](${input.value})`
+[${subreddit_name_prefixed}](${link})`
 
 
     b ? b.innerText = title : null
@@ -137,9 +144,8 @@ btn.addEventListener('click', () => {
   const reg = method.replace
   const url = values.replace(reg, '.json')
 
+  getRedditPost({ url, link: values })
   input.value = ''
-
-  getRedditPost({ url })
 })
 
 const downloadReddit = () => {
